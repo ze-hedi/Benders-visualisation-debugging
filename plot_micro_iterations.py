@@ -214,13 +214,12 @@ def plot_stacked_bars(data: dict[str, list[list[float]]], output_path: str | Non
     if output_path:
         # Build a single HTML page with all figures stacked vertically
         divs = []
-        for fig in figures:
-            divs.append(fig.to_html(full_html=False, include_plotlyjs=False))
+        for i, fig in enumerate(figures):
+            # Include plotly.js only in the first div
+            divs.append(fig.to_html(full_html=False, include_plotlyjs=(i == 0)))
 
         html = (
-            "<!DOCTYPE html>\n<html>\n<head>\n"
-            '<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>\n'
-            "</head>\n<body>\n"
+            "<!DOCTYPE html>\n<html>\n<head></head>\n<body>\n"
             + "\n<hr>\n".join(divs)
             + "\n</body>\n</html>"
         )
